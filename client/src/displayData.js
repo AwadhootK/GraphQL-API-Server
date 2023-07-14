@@ -1,5 +1,6 @@
 import { useQuery, gql } from '@apollo/client'
 import React from 'react'
+import './displayData.css'
 
 const QUERY_ALL_USERS = gql`
   query GetAllUsers {
@@ -28,19 +29,18 @@ function Data () {
   }
 
   return (
-    <div>
+    <div className='container'>
       {data &&
         data['users'].map(user => (
-          <>
-            <div>
-              <li>Name: {user.name}</li>
-              <li>Username: {user.name}</li>
-              <li>Age: {user.age}</li>
+          <div key={user.id}>
+            <ul>
+              <li className='name'>Name: {user.name}</li>
+              <li>Username: {user.username}</li>
               <li>Country: {user.nationality.toLowerCase()}</li>
-              <li>Friends: {user.friends}</li>
-            </div>
-            <hr></hr>
-          </>
+              <li className='friends'>Friends: {user.friends}</li>
+            </ul>
+            <hr />
+          </div>
         ))}
     </div>
   )
