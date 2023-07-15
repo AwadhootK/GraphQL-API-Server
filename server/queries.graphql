@@ -1,5 +1,6 @@
 # the queries made to this graphql server
 
+# query for getting all users without a union type
 query GetAllUsers {
   users {
     id
@@ -9,6 +10,29 @@ query GetAllUsers {
     friends {
       name
       age
+    }
+  }
+}
+
+# query for getting all users with a union type
+query GetAllUsersUnion {
+  users {
+    ... on UserSuccessfulResult {
+      users {
+        id
+        name
+        age
+        username
+        nationality
+        friends {
+          name
+          age
+        }
+      }
+    }
+
+    ... on UserErrorResult {
+      message
     }
   }
 }
