@@ -1,0 +1,61 @@
+# the queries made to this graphql server
+
+query GetAllUsers {
+  users {
+    id
+    name
+    nationality
+    username
+    friends {
+      name
+      age
+    }
+  }
+}
+
+query GetUserByID($userID: ID!) {
+  user(id: $userID) {
+    name
+    nationality
+    favouriteMovies {
+      yearOfPublication
+      id
+      name
+    }
+  }
+}
+
+query GetAllMovies {
+  movies {
+    name
+    yearOfPublication
+  }
+}
+
+query GetMovieByID($name: String!) {
+  movie(name: $name) {
+    name
+    yearOfPublication
+  }
+}
+
+mutation CreateUser($createUserInput: CreateUserInput!) {
+  createUser(input: $createUserInput) {
+    id
+    name
+    age
+  }
+}
+
+mutation updateUsername($input: updateUsernameInput!) {
+  updateUsername(input: $input) {
+    id
+    username
+  }
+}
+
+mutation deleteUserById($id: ID!) {
+  deleteUserByID(id: $id) {
+    id
+  }
+}

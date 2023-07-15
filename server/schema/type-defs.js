@@ -20,6 +20,7 @@ const typeDefs = gql`
 
   type Query {
     users: [User!]!
+    # users: UsersResult
     user(id: ID!): User!
     movies: [Movie!]!
     movie(name: String!): Movie!
@@ -249,6 +250,19 @@ const typeDefs = gql`
     ZAMBIA
     ZIMBABWE
   }
+
+  # return type for when the Users query is successfully executed
+  type UserSuccessfulResult {
+    users: [User!]!
+  }
+
+  # return type for when the Users query fails
+  type UserErrorResult {
+    message: String!
+  }
+
+  # this union represents all possible results after executing the users query -> either success or error
+  union UsersResult = UserSuccessfulResult | UserErrorResult
 `
 
 module.exports = { typeDefs }

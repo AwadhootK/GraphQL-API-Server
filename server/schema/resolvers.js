@@ -5,10 +5,20 @@ const resolvers = {
     // here is where we will do the actual database call
     // for now we will just use the file `sampleData.js`
     users () {
+      // return type without union error handling:
       return userList
+
+      // // return type with union error handling:
+      // if (userList) {
+      //   // if api call was successful and userList is fetched, return a UserSuccessfulResult object containing
+      //   // the userList as a key-value pair
+      //   return { users: userList }
+      // }
+      // // if unsuccessful, return an UserErrorResult object with message describing the error
+      // return { message: 'An Error Occurred!!' }
     },
 
-    user: (_, args) => {
+    user: (parent, args, context, info) => {
       const id = args.id
       return userList.find(user => user.id === id)
     },
@@ -64,7 +74,41 @@ const resolvers = {
       userList = userList.filter(user => user.id !== id)
       return null
     }
-  }
+  },
+
+  // RESOLVER FOR UNION TYPE OF USERSRESULT:
+  // UsersResult: {
+  //   __resolveType (obj) {
+  //     if (obj.users) {
+  //       return 'UserSuccessfulResult'
+  //     }
+  //     if (obj.message) {
+  //       return 'UserErrorResult'
+  //     }
+
+  //     // some other error occurred
+  //     return null
+  //   }
+  // }
 }
 
 module.exports = { resolvers }
+
+/*
+fragments: to re-use code on the frontend 
+instead of specifying the same fields again and again
+
+Eg:)
+
+fragment GetUserNames on User {
+  name
+  age
+}
+
+query GetUserInfo {
+  users {
+    ...GetUserNames
+  }
+}
+
+*/
